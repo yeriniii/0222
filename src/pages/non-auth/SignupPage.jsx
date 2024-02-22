@@ -17,20 +17,39 @@ const SignupPage = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
+          try {
+            const { data } = await authApi.post("register", {
+              id,
+              password,
+              nickname,
+            });
+            if (data.success) {
+              alert("회원가입성공 로그인페이지이동");
+              navigate(`/login`);
+            }
+          } catch (error) {
+            return alert(error.response.data.message);
+          }
         }}
       >
         <div>
           <label htmlFor="id">id</label>
-          <input />
+          <input value={id} onChange={(e) => setId(e.target.value)} />
         </div>
         <div>
           <label htmlFor="nickname">nickname</label>
-          <input />
+          <input
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+          />
         </div>
 
         <div>
           <label htmlFor="password">Password</label>
-          <input />
+          <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
 
         <button type="submit">Signup</button>

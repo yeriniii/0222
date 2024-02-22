@@ -3,12 +3,19 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Navigation = () => {
   const navigate = useNavigate();
-
+  const token = localStorage.getItem("access");
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate(`/`);
+  };
   return (
     <nav>
       {/* 로그인 또는 로그아웃 버튼 */}
-      <button>로그아웃</button>
-      <button>로그인하러가기</button>
+      {token ? (
+        <button onClick={handleLogout}>로그아웃</button>
+      ) : (
+        <button onClick={() => navigate(`/login`)}>로그인하러가기</button>
+      )}
 
       <ul
         style={{
