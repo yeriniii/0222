@@ -23,10 +23,10 @@ const SignupPage = () => {
               password,
               nickname,
             });
-            if (data.success) {
-              alert("회원가입성공 로그인페이지이동");
-              navigate(`/login`);
-            }
+            //if (data.success) { //여기는 짜피 성공한 로직이라서 이런거 필요없음
+            alert("회원가입성공 로그인페이지이동");
+            navigate(`/login`);
+            //}
           } catch (error) {
             return alert(error.response.data.message);
           }

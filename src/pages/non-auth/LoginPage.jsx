@@ -8,17 +8,6 @@ const LoginPage = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = async (id, password) => {
-    try {
-      const response = await authApi.post("login", {
-        id,
-        password,
-      });
-      return response.data;
-    } catch (error) {
-      return error.response.data.message;
-    }
-  };
   return (
     <div>
       <h1>Login</h1>
@@ -28,18 +17,22 @@ const LoginPage = () => {
         onSubmit={async (e) => {
           e.preventDefault();
           try {
-            const data = await login(id, password);
-            if (data && data.success) {
-              localStorage.setItem("access", data.accessToken);
-              localStorage.setItem("userId", data.userId);
-              localStorage.setItem("nickname", data.nickname);
-              alert("로그인 성공! 메인페이지 이동");
-              navigate(`/`);
-            } else {
-              return alert(data);
+            //로그인 시도후 성공했을때로직
+            const response = await authApi.post("login", {
+              id,
+              password,
+            });
+            if (!response.data.accessToken) {
+              alert("토큰없음");
+              return;
             }
+            alert("로그인성공 메인페이지 이동");
+            localStorage.setItem("access", response.data.accessToken);
+            localStorage.setItem("userId", response.data.userId);
+            localStorage.setItem("nickname", response.data.nickname);
+            navigate(`/`);
           } catch (error) {
-            console.log(error);
+            alert(error.response.data.message);
           }
         }}
         //input에 연결안하고 label에 연결해서 안됐음..ㅋ

@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import Navigation from "../Navigation";
 
 const NonAuthLayout = () => {
-  const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("access");
     if (token) {
       alert("이미 로그인상태입니다.");
-      navigate(`/`);
+      return <Navigate to="/" replace />;
     }
   }, []);
   return (

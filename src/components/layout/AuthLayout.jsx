@@ -10,7 +10,7 @@ const AuthLayout = () => {
     //login안되었으면 로그인페이지(로그인하라고알림)
     const token = localStorage.getItem("access");
     if (!token) {
-      navigate(`/login`);
+      return <Navigate to="/login" replace />;
     }
     setIsRender(true);
   }, [navigate]);

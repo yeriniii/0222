@@ -6,9 +6,23 @@ const TestPage = () => {
   const [posts, setPosts] = React.useState([]);
   const [comments, setComments] = React.useState([]);
 
-  const handleGetPostButtonClick = async () => {};
+  const handleGetPostButtonClick = async () => {
+    const { data } = await postsAxios.get("/");
 
-  const handleGetCommentsButtonClick = async () => {};
+    setPosts(data);
+    //console.log(posts);
+  };
+
+  const handleGetCommentsButtonClick = async () => {
+    try {
+      const response = await commentsAxios.get("/");
+      setComments(response.data);
+      setPosts([]);
+      console.log(comments);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -22,11 +36,13 @@ const TestPage = () => {
       </button>
 
       {posts?.map((post) => (
-        <></>
+        <>
+          {post.title} : {posts.author}
+        </>
       ))}
 
       {comments?.map((comment) => (
-        <></>
+        <>{comment.body}</>
       ))}
     </div>
   );

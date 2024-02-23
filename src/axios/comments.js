@@ -2,15 +2,15 @@ import axios from "axios";
 import { authApi } from "./auth";
 
 const commentsAxios = axios.create({
-  baseURL: "http://localhost:3001/comments",
+  baseURL: "http://localhost:3001/comments/",
+  timeout: 1500,
 });
 
 commentsAxios.interceptors.request.use(
   async (config) => {
-    const { data } = await authApi.get("user");
-    if (data.success) {
-      return config;
-    }
+    await authApi.get("user");
+
+    return config;
   },
   (error) => {
     return Promise.reject(error);
@@ -19,7 +19,7 @@ commentsAxios.interceptors.request.use(
 
 commentsAxios.interceptors.response.use(
   (response) => {
-    return alert(response);
+    return response;
   },
   (error) => {
     return Promise.reject(error);
